@@ -1,0 +1,26 @@
+POST http://localhost:8000/login/
+Content-Type: application/json
+
+{
+    "email": "a@a.com",
+    "password": "admin"
+}
+
+###
+POST http://localhost:8000/register/
+Content-Type: application/json
+
+{
+    "username": "m2111",
+    "password": "admin",
+    "email": "a@a1.com",
+    "phone_number": "123456789",
+    "address": "123456789",
+    "role": "bank_person"
+}
+
+
+###
+GET http://localhost:8000/test-token/
+Content-Type: application/json
+Authorization: Token 8c3a3bb1c6906220771de9fcab20450f14b43e68
