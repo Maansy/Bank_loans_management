@@ -88,40 +88,12 @@ class LoanCustomerSerializer(serializers.ModelSerializer):
         loan_customer = LoanCustomer.objects.create(
             user=user, **validated_data)
         return loan_customer
+    
+    # def update(self, instance, validated_data):
+    #     user_data = validated_data.pop('user')
+    #     user = UserSerializer.update(
+    #         UserSerializer(), instance=instance.user, validated_data=user_data)
+    #     loan_customer = LoanCustomer.objects.update(
+    #         user=user, **validated_data)
+    #     return loan_customer
 
-# class BankPersonnelRegistrationSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()
-#     class Meta:
-#         model = BankPersonnel
-#         fields = '__all__'
-
-#     def create(self, validated_data):
-#         user_data = validated_data.pop('user')
-#         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
-#         bank_personnel = BankPersonnel.objects.create(user=user, **validated_data)
-#         return bank_personnel
-
-
-# class LoanProviderRegistrationSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()
-#     class Meta:
-#         model = LoanProvider
-#         fields = '__all__'
-
-#     def create(self, validated_data):
-#         user_data = validated_data.pop('user')
-#         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
-#         loan_provider = LoanProvider.objects.create(user=user, **validated_data)
-#         return loan_provider
-
-# class LoanCustomerRegistrationSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()
-#     class Meta:
-#         model = LoanCustomer
-#         fields = '__all__'
-
-#     def create(self, validated_data):
-#         user_data = validated_data.pop('user')
-#         user = UserSerializer.create(UserSerializer(), validated_data=user_data)
-#         loan_customer = LoanCustomer.objects.create(user=user, **validated_data)
-#         return loan_customer

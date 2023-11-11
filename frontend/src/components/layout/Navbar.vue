@@ -16,16 +16,40 @@
         </template>
 
         <template v-else>
-            <v-btn text color="white" to="/dashboard/leads">
-                Leads
-            </v-btn>
-            <v-btn text color="white" to="/dashboard/clients">
-                Clients
-            </v-btn>
-            <v-btn text color="white" to="/dashboard/team">
-                Team
-            </v-btn>
-            <v-btn text color="white" to="/dashboard/my-account">
+            <template v-if="$store.state.isVerified">
+
+                <template v-if="$store.state.role === 'bank'">
+                    <v-btn text color="white" to="/bank-dashboard">
+                        Dashboard
+                    </v-btn>
+                    <v-btn text color="white" to="/create-loan">
+                        Create Loan
+                    </v-btn>
+                    <v-btn text color="white" to="/create-fund">
+                        Create Fund
+                    </v-btn>
+                </template>
+
+                <template v-else-if="$store.state.role === 'customer'">
+                    <v-btn text color="white" to="/customer-dashboard">
+                        Dashboard
+                    </v-btn>
+                    <v-btn text color="white" to="/loans">
+                        Loans
+                    </v-btn>
+                </template>
+
+                <template v-else-if="$store.state.role === 'provider'">
+                    <v-btn text color="white" to="/provider-dashboard">
+                        Dashboard
+                    </v-btn>
+                    <v-btn text color="white" to="/funds">
+                        Funds
+                    </v-btn>
+                </template>
+            </template>
+
+            <v-btn text color="white" to="/my-account">
                 Account
             </v-btn>
         </template>

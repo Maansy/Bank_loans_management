@@ -1,0 +1,56 @@
+POST http://localhost:8000/login/
+Content-Type: application/json
+
+{
+    "username": "hamada",
+    "password": "@Ahmed@123"
+}
+
+###
+POST "http://127.0.0.1:8000/loan-customer/
+Content-Type: application/json
+
+{
+    "username": "hamada",
+    "password": "@Ahmed@123",
+    "first_name": "ahmed",
+    "last_name": "hamada",
+    "email": "asf@asd.com",
+    "contact_number":"123123",
+    "address":"asdasd",
+    "city" :"asdf",
+    "state": "sadf",
+}
+
+###
+POST http://127.0.0.1:8000/bank-personnel/
+Content-Type: application/json
+
+{
+    "user": {
+        "username": "asdasasasdfdfasddff",
+        "password": "sadf",
+        "email": "asdf@asdf.com",
+        "first_name": "asdf",
+        "last_name": "asdf"
+    },
+    "bank_name": "asdf",
+    "bank_branch": "asdf",
+    "contact_number": "asdf",
+    "address": "asdf",
+    "city": "asdf",
+    "state": "asdf"
+}
+
+###
+POST http://127.0.0.1:8000/login/
+Content-Type: application/json
+
+{
+    "username": "hamada",
+    "password": "@Ahmed@123"
+}
+
+###
+GET http://127.0.0.1:8000/logout/
+Content-Type: application/json
