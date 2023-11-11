@@ -56,7 +56,7 @@ const routes = [
     component: DashboardCustomer,
     meta: {
       requireLogin: true,
-      // youAreCustomer: true
+      youAreCustomer: true
     }
   },
   {
@@ -65,7 +65,7 @@ const routes = [
     component: Loans,
     meta: {
       requireLogin: true,
-      // youAreCustomer: true
+      youAreCustomer: true
     }
   },
   {
@@ -74,7 +74,7 @@ const routes = [
     component: DashboardProvider,
     meta: {
       requireLogin: true,
-      // youAreProvider: true
+      youAreProvider: true
     }
   },
   {
@@ -83,7 +83,7 @@ const routes = [
     component: Funds,
     meta: {
       requireLogin: true,
-      // youAreProvider: true
+      youAreProvider: true
     }
   },
   {
@@ -92,7 +92,7 @@ const routes = [
     component: DashboardBank,
     meta: {
       requireLogin: true,
-      // youAreBanker: true
+      youAreBanker: true
     }
   },
   {
@@ -101,7 +101,7 @@ const routes = [
     component: CreateLoan,
     meta: {
       requireLogin: true,
-      // youAreBanker: true
+      youAreBanker: true
     }
   },
   {
@@ -110,7 +110,7 @@ const routes = [
     component: CreateFund,
     meta: {
       requireLogin: true,
-      // youAreBanker: true
+      youAreBanker: true
     }
   },
 
@@ -148,44 +148,44 @@ router.beforeEach((to, from, next) => {
 });
 
 // handle banker pages
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.youAreBanker)) {
-//     if (store.state.isAuthenticated && store.state.role === 'banker' && store.state.isVerified) {
-//       next('/my-account'); // Redirect to login if not authenticated
-//     } else {
-//       next(); // Proceed to the route
-//     }
-//   } else {
-//     next(); // No authentication required
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.youAreBanker)) {
+    if (store.state.role != 'bank') {
+      next('/my-account'); 
+    } else {
+      next(); // Proceed to the route
+    }
+  } else {
+    next(); // No authentication required
+  }
+});
 
 // // handle provider pages
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.youAreProvider)) {
-//     if (store.state.isAuthenticated && store.state.role === 'provider' && store.state.isVerified) {
-//       next('/my-account'); // Redirect to login if not authenticated
-//     } else {
-//       next(); // Proceed to the route
-//     }
-//   } else {
-//     next(); // No authentication required
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.youAreProvider)) {
+    if (store.state.role === 'customer') {
+      next('/my-account'); // Redirect to login if not authenticated
+    } else {
+      next(); // Proceed to the route
+    }
+  } else {
+    next(); // No authentication required
+  }
+});
 
 
 // // handle customer pages
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.youAreCustomer)) {
-//     if (store.state.isAuthenticated && store.state.role === 'customer' && store.state.isVerified) {
-//       next('/my-account'); // Redirect to login if not authenticated
-//     } else {
-//       next(); // Proceed to the route
-//     }
-//   } else {
-//     next(); // No authentication required
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.youAreCustomer)) {
+    if (store.state.role === 'provider') {
+      next('/my-account'); // Redirect to login if not authenticated
+    } else {
+      next(); // Proceed to the route
+    }
+  } else {
+    next(); // No authentication required
+  }
+});
 
 
 export default router

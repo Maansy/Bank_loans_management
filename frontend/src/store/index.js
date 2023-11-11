@@ -42,15 +42,20 @@ export default createStore({
     initializeStore(state) {
       let token = getCookie('token');
       let role = getCookie('role');
+      let isVerified = getCookie('isVerified') === 'true';
       if (token) {
         state.token = token;
         state.isAuthenticated = true;
         state.role = role;
+        state.isVerified = isVerified;
+
       } else {
         state.token = '';
         state.isAuthenticated = false;
         state.role = '';
         state.isVerified = false;
+        state.isVerified = false;
+
       }
     },
     setToken(state, token) {
@@ -67,6 +72,7 @@ export default createStore({
     },
     setIsVerified(state, isVerified) {
       state.isVerified = isVerified;
+      setCookie('isVerified', isVerified, 7);
     },
     logout(state) {
       state.token = '';
@@ -75,6 +81,7 @@ export default createStore({
       state.role = '';
       eraseCookie('token');
       eraseCookie('role');
+      eraseCookie('isVerified');
     }
   },
   actions: {

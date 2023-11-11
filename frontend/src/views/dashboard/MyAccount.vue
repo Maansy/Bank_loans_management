@@ -136,7 +136,6 @@ export default {
         logout() {
             axios.post('/logout/')
                 .catch(error => {
-                    // Handle error
                     console.log(error);
                 });
             // Call the Vuex 'logout' mutation
@@ -153,34 +152,30 @@ export default {
             })
         },
         async getAccountInfo() {
-            try {
-                await axios
-                    .get('/me/')
-                    .then(response => {
-                        this.username = response.data.username;
-                        this.email = response.data.email;
-                        this.first_name = response.data.first_name;
-                        this.last_name = response.data.last_name;
-                        this.address = response.data.address;
-                        this.city = response.data.city;
-                        this.state = response.data.state;
-                        this.contact_number = response.data.contact_number;
-                        if (response.data.is_verified == true) {
-                            this.is_verified = 'Yes';
-                        } else {
-                            this.is_verified = 'No';
-                        }
-                        this.bank_name = response.data.bank_name;
-                        this.bank_branch = response.data.bank_branch;
-                        this.max_income = response.data.max_income;
-                        this.max_amount = response.data.max_amount;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            } catch (error) {
-                console.log(error);
-            }
+            await axios
+                .get('/me/')
+                .then(response => {
+                    this.username = response.data.username;
+                    this.email = response.data.email;
+                    this.first_name = response.data.first_name;
+                    this.last_name = response.data.last_name;
+                    this.address = response.data.address;
+                    this.city = response.data.city;
+                    this.state = response.data.state;
+                    this.contact_number = response.data.contact_number;
+                    if (response.data.is_verified == true) {
+                        this.is_verified = 'Yes';
+                    } else {
+                        this.is_verified = 'No';
+                    }
+                    this.bank_name = response.data.bank_name;
+                    this.bank_branch = response.data.bank_branch;
+                    this.max_income = response.data.max_income;
+                    this.max_amount = response.data.max_amount;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
     }
 }

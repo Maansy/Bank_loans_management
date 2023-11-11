@@ -17,7 +17,6 @@
 
         <template v-else>
             <template v-if="$store.state.isVerified">
-
                 <template v-if="$store.state.role === 'bank'">
                     <v-btn text color="white" to="/bank-dashboard">
                         Dashboard
