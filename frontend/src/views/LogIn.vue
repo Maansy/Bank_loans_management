@@ -6,7 +6,7 @@
           <v-card-title class="headline">Log in</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="submitForm">
-              <v-text-field label="Email" type="email" v-model="username" required></v-text-field>
+              <v-text-field label="Username" v-model="username" required></v-text-field>
               <v-text-field label="Password" type="password" v-model="password" required></v-text-field>
               <v-alert type="error" v-if="errors.length" v-for="error in errors" :key="error">{{ error }}</v-alert>
               <v-btn color="success" type="submit" block>Submit</v-btn>

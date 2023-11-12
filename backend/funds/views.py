@@ -33,3 +33,16 @@ def get_funds(request):
         funds = Fund.objects.all()
         serializer = FundSerializer(funds, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_fund(request,pk):
+    if request.method == 'GET':
+        try:
+            fund = Fund.objects.get(pk=pk)
+        except:
+            return Response({'error': 'Fund not found'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = FundSerializer(fund)
+        return Response(serializer.data, status=status.HTTP_200_OK)

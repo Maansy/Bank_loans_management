@@ -10,7 +10,7 @@
           </v-card-text>
           <template v-if="$store.state.role === 'customer'">
             <v-card-actions>
-                <v-btn color="primary">Subscribe</v-btn>
+                <v-btn color="primary" @click="subscribeToLoan(loan.id)">Subscribe</v-btn>
             </v-card-actions>
         </template>
         </v-card>
@@ -38,6 +38,14 @@
           this.loans = response.data;
         } catch (error) {
           console.error('Error fetching loans:', error);
+        }
+      },
+      async subscribeToLoan(loanId) {
+        try {
+          // console.log(loanId);
+          this.$router.push({ name: 'Loan', params: { loanId } });
+        } catch (error) {
+          console.error('Error subscribing to loan:', error);
         }
       },
     },

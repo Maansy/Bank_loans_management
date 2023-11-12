@@ -9,8 +9,11 @@ import CreateLoan from '../views/dashboard/bank/CreateLoan.vue'
 import CreateFund from '../views/dashboard/bank/CreateFund.vue'
 import DashboardCustomer from '../views/dashboard/customer/DashboardCustomer.vue'
 import Loans from '../views/dashboard/customer/Loans.vue'
+import Loan from '../views/dashboard/customer/Loan.vue'
 import DashboardProvider from '../views/dashboard/provider/DashboardProvider.vue'
 import Funds from '../views/dashboard/provider/Funds.vue'
+import Fund from '../views/dashboard/provider/Fund.vue'
+
 
 const routes = [
   {
@@ -69,6 +72,15 @@ const routes = [
     }
   },
   {
+    path: '/loan/:loanId',
+    name: 'Loan',
+    component: Loan,
+    meta: {
+      requireLogin: true,
+      youAreCustomer: true
+    }
+  },
+  {
     path: '/provider-dashboard',
     name: 'DashboardProvider',
     component: DashboardProvider,
@@ -81,6 +93,15 @@ const routes = [
     path: '/funds',
     name: 'Funds',
     component: Funds,
+    meta: {
+      requireLogin: true,
+      youAreProvider: true
+    }
+  },
+  {
+    path: '/fund/:fundId',
+    name: 'Fund',
+    component: Fund,
     meta: {
       requireLogin: true,
       youAreProvider: true

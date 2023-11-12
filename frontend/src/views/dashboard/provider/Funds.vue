@@ -10,7 +10,7 @@
           </v-card-text>
           <template v-if="$store.state.role === 'provider'">
             <v-card-actions>
-                <v-btn color="primary">Subscribe</v-btn>
+                <v-btn color="primary" @click="subscribeToFund(fund.id)">Subscribe</v-btn>
             </v-card-actions>
         </template>
         </v-card>
@@ -37,7 +37,14 @@
           const response = await axios.get('/get-funds/');
           this.funds = response.data;
         } catch (error) {
-          console.error('Error fetching loans:', error);
+          console.error('Error fetching funds:', error);
+        }
+      },
+      async subscribeToFund(fundId) {
+        try {
+          this.$router.push({ name: 'Fund', params: { fundId } });
+        } catch (error) {
+          console.error('Error subscribing to fund:', error);
         }
       },
     },
