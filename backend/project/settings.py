@@ -27,8 +27,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
-
-
+STRIPE_PUB_KEY = 'pk_test_51O6FfiCPlb6OgBYTTtNVQhyhaNBiwTNrT2KfyuXOi8zjopPigOBqqHCx0KTWxO93ks5iuuStW3PAJy2ZYnmn6vS300jEVHSn0K'
+STRIPE_SECRET_KEY = 'sk_test_51O6FfiCPlb6OgBYTGZfUHyHesnm1Y1TFAF3vbPyLw8zotPtAoZATwmuG4iSsuAp7NHZJWBlFkTSwjzcXkMptPqof00hXweSPZn'
 # Application definition
 
 INSTALLED_APPS = [

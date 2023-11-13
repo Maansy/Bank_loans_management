@@ -136,11 +136,7 @@ export default {
             const apiEndpoint = 'loan-provider/';
 
             await axios
-                .post(apiEndpoint, provider_data, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
+                .post(apiEndpoint, provider_data)
                 .then(response => {
                     toast({
                         message: 'Sign up successfully',
@@ -184,11 +180,7 @@ export default {
             const apiEndpoint = 'loan-customer/';
 
             await axios
-                .post(apiEndpoint, customer_data, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
+                .post(apiEndpoint, customer_data)
                 .then(response => {
                     toast({
                         message: 'Sign up successfully',
@@ -232,11 +224,7 @@ export default {
             const apiEndpoint = 'bank-personnel/';
 
             await axios
-                .post(apiEndpoint, bank_personal_data, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
+                .post(apiEndpoint, bank_personal_data)
                 .then(response => {
                     toast({
                         message: 'Sign up successfully',

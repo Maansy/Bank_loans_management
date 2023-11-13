@@ -27,6 +27,11 @@
                     <v-btn text color="white" to="/create-fund">
                         Create Fund
                     </v-btn>
+
+                    <v-btn text color="white" to="/manage-persons" >
+                        Manage Persons
+                    </v-btn>
+
                 </template>
 
                 <template v-else-if="$store.state.role === 'customer'">

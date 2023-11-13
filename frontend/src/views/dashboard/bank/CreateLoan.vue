@@ -18,6 +18,11 @@
                             <v-text-field label="Min loan amount" v-model="min_loan_amount" />
                             <v-text-field label="Max loan amount" v-model="max_loan_amount" />
                             <v-text-field label="Duration" v-model="duration" />
+                            <v-select label="Interest type" v-model="interest_type" :items=interests
+                                variant="underlined"></v-select>
+                            <v-select label="Loan type" v-model="loan_type" :items=types variant="underlined"></v-select>
+                            <v-select label="Fund" v-model="selectedFund" :items=funds item-title="name" item-value="id"
+                                variant="underlined"></v-select>
                             <v-alert type="error" v-if="errors.length" v-for="error in errors" :key="error">{{ error
                             }}</v-alert>
                             <v-btn color="primary" type="submit">Submit</v-btn>
@@ -37,14 +42,30 @@ export default {
     name: 'CreateLoan',
     data() {
         return {
+            interests: [
+                'fixed',
+                'reducing',
+            ],
+            types: [
+                'personal',
+                'business',
+            ],
             name: '',
             description: '',
             interest_rate: '',
             max_loan_amount: '',
             min_loan_amount: '',
             duration: '',
+            loan_type: '',
+            interest_type: '',
+
+            funds: [],
+            selectedFund: '',
             errors: [],
         }
+    },
+    mounted() {
+        this.fetchFunds();
     },
     methods: {
         async submitForm() {
@@ -66,30 +87,46 @@ export default {
                     return
                 }
                 else {
-                    const response = await axios.post('/create-loan/', {
+                    await axios.post('/create-loan/', {
                         name: this.name,
                         description: this.description,
                         interest_rate: this.interest_rate,
                         max_loan_amount: this.max_loan_amount,
                         min_loan_amount: this.min_loan_amount,
                         duration: this.duration,
+                        loan_type: this.loan_type,
+                        interest_type: this.interest_type,
+                        fund: this.selectedFund
                     })
-                    .then(
-                        toast({
-                            message: 'Loan created successfully',
-                            type: 'is-success',
-                            position: 'bottom-right',
-                            dismissible: true,
-                            pauseOnHover: true,
-                            duration: 3000,
+                        .then(response => {
+                            toast({
+                                message: 'Loan created successfully',
+                                type: 'is-success',
+                                position: 'bottom-right',
+                                dismissible: true,
+                                pauseOnHover: true,
+                                duration: 3000,
+                            })
                         })
-                    )
+
                     this.$router.push({ name: 'Loans' });
-                    
+
                 }
 
             } catch (error) {
                 console.log(error);
+            }
+        },
+        async fetchFunds() {
+            try {
+                await axios.get('/get-funds/')
+                    .then(response => {
+                        this.funds = response.data;
+                    })
+
+            } catch (error) {
+                console.error('Error fetching funds:', error);
+                this.errors.push('Failed to fetch funds');
             }
         },
     }

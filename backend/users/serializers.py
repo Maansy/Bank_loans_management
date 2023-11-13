@@ -88,12 +88,3 @@ class LoanCustomerSerializer(serializers.ModelSerializer):
         loan_customer = LoanCustomer.objects.create(
             user=user, **validated_data)
         return loan_customer
-    
-    # def update(self, instance, validated_data):
-    #     user_data = validated_data.pop('user')
-    #     user = UserSerializer.update(
-    #         UserSerializer(), instance=instance.user, validated_data=user_data)
-    #     loan_customer = LoanCustomer.objects.update(
-    #         user=user, **validated_data)
-    #     return loan_customer
-

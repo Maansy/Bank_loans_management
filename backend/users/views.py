@@ -6,7 +6,7 @@ from rest_framework import status
 from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
@@ -257,3 +257,72 @@ class GetMeView(APIView):
             user_data['role'] = 'user'
 
         return Response(user_data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_non_verified_providers(request):
+    if request.method == 'GET':
+        user = request.user
+        try:
+            bank_personnel = user.bank_personnel
+        except:
+            return Response({'error': 'You are not a bank personnel'}, status=status.HTTP_400_BAD_REQUEST)
+        loan_providers = LoanProvider.objects.filter(is_verified=False)
+        serializer = LoanProviderSerializer(loan_providers, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_non_verified_customers(request):
+    if request.method == 'GET':
+        user = request.user
+        try:
+            bank_personnel = user.bank_personnel
+        except:
+            return Response({'error': 'You are not a bank personnel'}, status=status.HTTP_400_BAD_REQUEST)
+        customers = LoanCustomer.objects.filter(is_verified=False)
+        serializer = LoanCustomerSerializer(customers, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def verify_provider(request,pk):
+    if request.method == 'PUT':
+        user = request.user
+        try:
+            bank_personnel = user.bank_personnel
+        except:
+            return Response({'error': 'You are not a bank personnel'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            loan_provider = LoanProvider.objects.get(pk=pk)
+        except:
+            return Response({'error': 'Loan provider not found'}, status=status.HTTP_404_NOT_FOUND)
+        loan_provider.is_verified = True
+        loan_provider.save()
+        serializer = LoanProviderSerializer(loan_provider)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def verify_customer(request,pk):
+    if request.method == 'PUT':
+        user = request.user
+        try:
+            bank_personnel = user.bank_personnel
+        except:
+            return Response({'error': 'You are not a bank personnel'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            customer = LoanCustomer.objects.get(pk=pk)
+        except:
+            return Response({'error': 'Loan provider not found'}, status=status.HTTP_404_NOT_FOUND)
+        customer.is_verified = True
+        customer.save()
+        serializer = LoanCustomerSerializer(customer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    

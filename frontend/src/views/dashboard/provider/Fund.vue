@@ -12,7 +12,16 @@
             <v-col cols="12">
                 <v-row> <!-- Centering the column -->
                     <v-col cols="12" sm="6"> <!-- Adjust the size of the column -->
-                        <v-text-field label="Enter Your amount" v-model="amount" required></v-text-field>
+                        <v-text-field label="Enter Your amount" v-model="this.amount" required></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6"> <!-- Adjust the size of the column -->
+                        <v-text-field label="Amount after fund period" v-model="this.after_period" :disabled="true"
+                            required></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-btn color="success" type="Submit" @click="calc_amount(amount)" block >Calculate your money after period</v-btn>
                     </v-col>
                 </v-row>
                 <v-card>
@@ -46,7 +55,7 @@
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="12" sm="6">
+                            <v-col >
                                 <v-btn color="success" type="submit" @click="subcribeFund(amount)" block>Submit</v-btn>
                             </v-col>
                         </v-row>
@@ -57,6 +66,9 @@
     </v-container>
 </template>
 
+
+
+
 <script>
 import axios from 'axios';
 
@@ -64,29 +76,26 @@ export default {
     name: 'Fund',
     data() {
         return {
-            name: '', // Assuming these are the details you want to fetch
+            name: '',
             duration: '',
             description: '',
             interest_rate: '',
             min_fund_amount: '',
             max_fund_amount: '',
-            errors: [], // For error handling
+            amount: '',
+            after_period: '',
+            errors: [],
         };
     },
     mounted() {
         this.fetchfundDetails();
     },
     methods: {
-        async submitForm() {
-            // Your existing form submission logic
-        },
         async fetchfundDetails() {
             try {
-                const fundId = this.$route.params.fundId; // If using Vue Router and the loan ID is a route parameter
-                console.log(fundId);
-                const response = await axios.get(`/get-fund/${fundId}`); // Adjust the URL as per your API requirements
-                // Assuming the API returns an object with amount and duration fields
-                console.log(response.data);
+                const fundId = this.$route.params.fundId;
+                const response = await axios.get(`/get-fund/${fundId}`);
+                // console.log(response.data);
                 this.name = response.data.name;
                 this.duration = response.data.duration;
                 this.description = response.data.description;
@@ -99,13 +108,31 @@ export default {
                 this.errors.push('Failed to fetch fund details');
             }
         },
-        subcribeFund(amount) {
-            if (amount < this.min_fund_amount || amount > this.max_fund_amount) {
+        async subcribeFund(amount) {
+            if (amount < this.min_fund_amount || amount > this.max_fund_amount || isNaN(amount) || amount < 0) {
                 this.errors.push('Amount should be between min and max amount');
                 return;
             }
-            console.log(amount);
+            const fundId = this.$route.params.fundId;
+            const payed_amount = amount
+            await axios.post(`/request-fund/${fundId}/`, { payed_amount })
+                .then((response) => {
+                    this.$router.push('/provider-dashboard');
+                })
+                .catch((error) => {
+                    console.error('Error subscribing fund:', error);
+                    this.errors.push('Failed to subscribe fund');
+                });
         },
+        async calc_amount(amount){
+            if (amount < this.min_fund_amount || amount > this.max_fund_amount || isNaN(amount) || amount < 0) {
+                this.errors.push('Amount should be between min and max amount');
+                return;
+            }
+            const fundId = this.$route.params.fundId;
+            const response = await axios.get(`/calc-fund-interest/${fundId}/${amount}/`);
+            this.after_period = response.data;
+        }
     },
 };
 </script>

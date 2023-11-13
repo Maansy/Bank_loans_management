@@ -5,6 +5,7 @@ import SignUp from '../views/SignUp.vue'
 import LogIn from '../views/LogIn.vue'
 import MyAccount from '../views/dashboard/MyAccount.vue'
 import DashboardBank from '../views/dashboard/bank/DashboardBank.vue'
+import ManagePersons from '../views/dashboard/bank/ManagePersons.vue'
 import CreateLoan from '../views/dashboard/bank/CreateLoan.vue'
 import CreateFund from '../views/dashboard/bank/CreateFund.vue'
 import DashboardCustomer from '../views/dashboard/customer/DashboardCustomer.vue'
@@ -111,6 +112,15 @@ const routes = [
     path: '/bank-dashboard',
     name: 'DashboardBank',
     component: DashboardBank,
+    meta: {
+      requireLogin: true,
+      youAreBanker: true
+    }
+  },
+  {
+    path: '/manage-persons',
+    name: 'ManagePersons',
+    component: ManagePersons,
     meta: {
       requireLogin: true,
       youAreBanker: true
