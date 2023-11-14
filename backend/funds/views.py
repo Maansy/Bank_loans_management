@@ -233,7 +233,6 @@ def get_payed_funds_with_interests(request):
             calc_fund = CalculateFundService(fund_request.fund, fund_request.payed_amount)
             total_amount = calc_fund.call() + fund_request.payed_amount
             data.append({'fund_name': fund_request.fund.name, 'total_amount': total_amount, 'payed_amount': fund_request.payed_amount})
-        print(data)
         return Response(data, status=status.HTTP_200_OK)
     
 

@@ -134,6 +134,15 @@ export default {
                 this.errors.push('Amount should be between min and max amount');
                 return;
             }
+            const loanId = this.$route.params.loanId;
+            axios.post(`/request-loan/${loanId}/`, { payed_amount: amount })
+                .then((response) => {
+                    this.$router.push('customer-dashboard/');
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.errors.push('Failed to subcribe loan');
+                });
         },
         async calculateMonthlyAmount(amount) {
             if (amount < this.min_loan_amount || amount > this.max_loan_amount || isNaN(amount) || amount < 0) {

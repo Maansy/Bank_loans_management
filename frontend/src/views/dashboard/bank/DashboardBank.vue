@@ -64,6 +64,33 @@
                 </v-data-table>
             </v-col>
         </v-row>
+        <v-row>
+            <v-col cols="12">
+                <v-btn color="primary" text>Loan Requests</v-btn>
+            </v-col>
+            <v-col cols="12">
+                <v-data-table :headers="headers" :items="loanRequests" class="elevation-1">
+                    <template v-slot:item="{ item }">
+                        <tr>
+                            <td align="center">{{ item.loan.name }}</td>
+                            <td align="center">{{ item.payed_amount }}</td>
+                            <td align="center">{{ item.user.user.username }}</td>
+                            <td align="center">{{ item.created_at }}</td>
+                            <td align="center">{{ item.is_approved }}</td>
+                            <td align="center">
+                                <v-btn small v-bind:color="type === 0 ? 'success' : 'error'" @click="approveLoan(item.id)">
+                                    Appprove
+                                </v-btn>
+                                <v-btn small v-bind:color="type === 1 ? 'success' : 'error'" @click="rejectLoan(item.id)">
+                                    Reject
+                                </v-btn>
+                            </td>
+                        </tr>
+                    </template>
+                </v-data-table>
+            </v-col>
+        </v-row>
+        <v-divider></v-divider>
     </v-container>
 </template>
 
@@ -93,12 +120,14 @@ export default {
             fundRequests: [],
             approvedRequests: [],
             rejectedRequests: [],
+            loanRequests: [],
         };
     },
     mounted() {
         this.fetchFundRequests();
         this.fetchApprovedRequests();
         this.fetchRejectedRequests();
+        this.fetchLoanRequests();
     },
     methods: {
         async fetchFundRequests() {
@@ -158,7 +187,45 @@ export default {
             } catch (error) {
                 console.error('Error fetching fund requests:', error);
             }
-        }
+        },
+        async fetchLoanRequests() {
+            try {
+                // const fundId = this.$route.params.fundId;
+                const response = await axios.get('/get-non-assigned-loan-request/');
+                console.log(response.data);
+                this.loanRequests = response.data;
+            } catch (error) {
+                console.error('Error fetching loan requests:', error);
+            }
+        },
+        async approveLoan(id) {
+            try {
+                await axios.put(`/approve-loan-request/${id}/`)
+                    .then((response) => {
+                        this.fetchLoanRequests();
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } catch (error) {
+                console.error('Error approving loan request:', error);
+            }
+        },
+        async rejectLoan(id) {
+            try {
+                await axios.put(`/reject-loan-request/${id}/`)
+                    .then((response) => {
+                        this.fetchLoanRequests();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                console.log("Reject: ", id);
+            } catch (error) {
+                console.error('Error rejecting loan request:', error);
+            }
+        },
     }
 
 }

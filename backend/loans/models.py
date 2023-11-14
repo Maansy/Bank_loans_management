@@ -31,3 +31,43 @@ class Loan(models.Model):
     
     def __str__(self):
         return self.name
+    
+class LoanRequest(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.LoanCustomer', on_delete=models.CASCADE)
+    payed_amount = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
+    is_rejected = models.BooleanField(default=False)
+    is_payed = models.BooleanField(default=False)
+    assigned_by = models.ForeignKey('users.BankPersonnel', on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ('-created_at',)
+
+    def __str__(self):
+        return self.loan.name
+    
+
+class GeneralInfo(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.LoanCustomer', on_delete=models.CASCADE)
+    total_amount = models.FloatField()
+    remaining_amount = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('-created_at',)
+
+    def __str__(self):
+        return self.loan.name
+
+class LoanPayment(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.LoanCustomer', on_delete=models.CASCADE)
+    amount = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.loan.name
