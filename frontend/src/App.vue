@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <Navbar /> <!-- Your Navbar component -->
+      <Navbar /> 
       <router-view></router-view> <!-- Place where your routed components will be rendered -->
     </v-main>
   </v-app>

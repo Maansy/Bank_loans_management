@@ -60,12 +60,10 @@ export default {
         this.$router.push({ name: 'MyAccount' });
       } catch (error) {
         if (error.response && error.response.data) {
-          // Handle errors from the server
           for (const key in error.response.data) {
             this.errors.push(`${key}: ${error.response.data[key]}`);
           }
         } else {
-          // Handle other errors
           this.errors.push('An error occurred. Please try again later.');
         }
       }

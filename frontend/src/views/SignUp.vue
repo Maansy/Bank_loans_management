@@ -18,7 +18,6 @@
                             <v-text-field label="Address" v-model="address" />
 
 
-                            <!-- Role Selection Dropdown -->
                             <v-select label="Select" v-model="selectedRole" :items=roles variant="underlined"
                                 @update:modelValue="toggleSecondForm"></v-select>
                         </v-form>
@@ -33,7 +32,6 @@
                             <v-text-field label="Bank Name" v-model="bank_name" />
                             <v-text-field label="Bank Branch" v-model="bank_branch" />
 
-                            <!-- Role Selection Dropdown -->
                             <v-alert type="error" v-if="errors.length">
                                 <ul>
                                     <li v-for="error in errors" :key="error">{{ error }}</li>
@@ -72,7 +70,6 @@
                         <v-form @submit.prevent="submitFormLoanProvider">
                             <v-text-field label="Max Amount" v-model="max_amount" />
 
-                            <!-- Role Selection Dropdown -->
                             <v-alert type="error" v-if="errors.length">
                                 <ul>
                                     <li v-for="error in errors" :key="error">{{ error }}</li>
@@ -149,7 +146,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                    this.errors = []; // Reset errors array to avoid duplicates.
+                    this.errors = []; 
                     if (error.response) {
                         for (const property in error.response.data) {
                             this.errors.push(`${property}: ${error.response.data[property]}`);
@@ -192,7 +189,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                    this.errors = []; // Reset errors array to avoid duplicates.
+                    this.errors = []; 
                     if (error.response) {
                         for (const property in error.response.data) {
                             this.errors.push(`${property}: ${error.response.data[property]}`);
@@ -236,7 +233,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                    this.errors = []; // Reset errors array to avoid duplicates.
+                    this.errors = []; 
                     if (error.response) {
                         for (const property in error.response.data) {
                             this.errors.push(`${property}: ${error.response.data[property]}`);
@@ -252,7 +249,7 @@ export default {
             this.showBankForm = false;
             this.showCustomerForm = false;
             this.showLoanProviderForm = false;
-            // Display the correct form based on the selected role
+        
             switch (this.selectedRole) {
                 case 'Bank Personal':
                     this.showBankForm = true;

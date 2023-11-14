@@ -47,7 +47,6 @@ export default {
     },
     async subscribeToLoan(loanId) {
       try {
-        // console.log(loanId);
         this.$router.push({ name: 'Loan', params: { loanId } });
       } catch (error) {
         console.error('Error subscribing to loan:', error);

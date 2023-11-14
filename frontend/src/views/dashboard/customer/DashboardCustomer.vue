@@ -74,29 +74,6 @@
             </v-col>
         </v-row>
         <v-divider></v-divider>
-        <!-- <v-row>
-            <v-col cols="12">
-                <v-btn color="primary" text>Loans Payment</v-btn>
-            </v-col>
-            <v-col cols="12">
-                <v-data-table :headers="headers1" :items="payed_loans" class="elevation-1">
-                    <template v-slot:item="{ item }">
-                        <tr>
-                            <td align="center">{{ item.loan }}</td>
-                            <td align="center">{{ item.interest }}</td>
-                            <td align="center">{{ item.monthly_payment }}</td>
-                            <td align="center">
-                                <v-btn small @click="pay_amount(item.monthly_payment, item.id)"
-                                    v-bind:color="type === 0 ? 'success' : 'error'">
-                                    Pay ${{ item.monthly_payment }}
-                                </v-btn>
-                            </td>
-                        </tr>
-                    </template>
-                </v-data-table>
-            </v-col>
-        </v-row>
-        <v-divider></v-divider> -->
     </v-container>
 </template>
 
@@ -190,7 +167,6 @@ export default {
                 await stripe.redirectToCheckout({ sessionId });
             } catch (error) {
                 console.error('Error with Stripe checkout:', error);
-                // Handle errors
             }
         },
 

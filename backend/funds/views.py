@@ -9,8 +9,6 @@ from rest_framework.authentication import TokenAuthentication
 from .services import CalculateFundService
 import stripe
 
-# Create your views here.
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -70,7 +68,6 @@ def request_fund(request,pk):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-# we will make the put to make admin approve the fund request
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
@@ -171,7 +168,6 @@ def calc_fund_interest(request,pk,amount):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_approved_fund_waiting_payment(request):
-    #get approved fund request that is not payed for each loan provider invividualy
     if request.method == 'GET':
         user = request.user
         try:
@@ -187,7 +183,6 @@ def get_approved_fund_waiting_payment(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_rejected_funds(request):
-    #get rejected fund request that is not payed for each loan provider invividualy
     if request.method == 'GET':
         user = request.user
         try:
@@ -202,7 +197,6 @@ def get_rejected_funds(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_waiting_approve_funds(request):
-    #get waiting fund request
     if request.method == 'GET':
         user = request.user
         try:
@@ -218,15 +212,12 @@ def get_waiting_approve_funds(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_payed_funds_with_interests(request):
-    #return payed amount in a json format with  interest and fund name from CalculateFundService for each loan
-    #provider invividualy
     if request.method == 'GET':
         user = request.user
         try:
             loan_provider = user.loan_provider
         except:
             return Response({'error': 'You are not a loan provider'}, status=status.HTTP_400_BAD_REQUEST)
-        #we need to add the retunrned value in a json format because there is no column in loan serializer for it
         fund_requests = FundRequest.objects.filter(is_payed=True, user=loan_provider)
         data = []
         for fund_request in fund_requests:
@@ -258,7 +249,6 @@ def create_stripe_checkout_session(request):
                 },
             ],
             mode='payment',
-            #if success change the is_payed to true
             success_url=request.build_absolute_uri('http://localhost:8080/provider-dashboard'),  # Redirect URLs after successful payment            
             cancel_url=request.build_absolute_uri('/cancel/'),
         )

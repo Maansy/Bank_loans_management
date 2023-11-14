@@ -19,7 +19,6 @@ class BankPersonnelAdmin(admin.ModelAdmin):
 admin.site.register(BankPersonnel,BankPersonnelAdmin)
 
 class LoanProviderAdmin(admin.ModelAdmin):
-    # we need to get user.username to add here
     list_display = ('get_username', 'is_verified', 'is_active', 'created_at', 'updated_at')
     search_fields = ('is_active', 'created_at', 'updated_at')
     readonly_fields = ('created_at', 'updated_at')

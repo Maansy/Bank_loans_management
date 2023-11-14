@@ -22,7 +22,6 @@ function getCookie(name) {
 }
 
 function eraseCookie(name) {
-  // Set the cookie with an expiration date in the past
   document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
@@ -61,14 +60,14 @@ export default createStore({
     setToken(state, token) {
       state.token = token;
       state.isAuthenticated = true;
-      setCookie('token', token, 7); // Set for 7 days, adjust as needed
+      setCookie('token', token, 7); 
     },
     setUser(state, user) {
       state.user = user;
     },
     setRole(state, role) {
       state.role = role;
-      setCookie('role', role, 7); // Set for 7 days, adjust as needed
+      setCookie('role', role, 7); 
     },
     setIsVerified(state, isVerified) {
       state.isVerified = isVerified;
@@ -85,7 +84,6 @@ export default createStore({
     }
   },
   actions: {
-    // Actions can be added here for asynchronous operations
     initializeAuthentication({ commit }) {
       commit('initializeStore');
     },

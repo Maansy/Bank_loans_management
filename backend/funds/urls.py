@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import create_fund, get_funds,get_fund,request_fund,approve_fund_request,get_non_assigned_fund_request, reject_fund_request,get_approved_fund_request
 from .views import get_rejected_fund_request, calc_fund_interest, get_approved_fund_waiting_payment, get_rejected_funds,get_waiting_approve_funds, get_payed_funds_with_interests,create_stripe_checkout_session
+
 urlpatterns = [
     path('create-fund/', create_fund, name='create-fund'),
     path('get-funds/', get_funds, name='get-funds'),

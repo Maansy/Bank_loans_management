@@ -10,11 +10,11 @@
             </v-col>
 
             <v-col cols="12">
-                <v-row> <!-- Centering the column -->
-                    <v-col cols="12" sm="6"> <!-- Adjust the size of the column -->
+                <v-row> 
+                    <v-col cols="12" sm="6"> 
                         <v-text-field label="Enter Your amount" v-model="this.amount" required></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6"> <!-- Adjust the size of the column -->
+                    <v-col cols="12" sm="6"> 
                         <v-text-field label="Amount after fund period" v-model="this.after_period" :disabled="true"
                             required></v-text-field>
                     </v-col>
@@ -95,7 +95,6 @@ export default {
             try {
                 const fundId = this.$route.params.fundId;
                 const response = await axios.get(`/get-fund/${fundId}`);
-                // console.log(response.data);
                 this.name = response.data.name;
                 this.duration = response.data.duration;
                 this.description = response.data.description;

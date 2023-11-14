@@ -132,7 +132,6 @@ export default {
     methods: {
         async fetchFundRequests() {
             try {
-                // const fundId = this.$route.params.fundId;
                 const response = await axios.get('/get-non-assigned-fund-request/');
                 this.fundRequests = response.data;
             } catch (error) {
@@ -172,7 +171,6 @@ export default {
         },
         async fetchApprovedRequests() {
             try {
-                // const fundId = this.$route.params.fundId;
                 const response = await axios.get('/get-approved-fund-request/');
                 this.approvedRequests = response.data;
             } catch (error) {
@@ -181,7 +179,6 @@ export default {
         },
         async fetchRejectedRequests() {
             try {
-                // const fundId = this.$route.params.fundId;
                 const response = await axios.get('/get-rejected-fund-request/');
                 this.rejectedRequests = response.data;
             } catch (error) {
@@ -190,7 +187,6 @@ export default {
         },
         async fetchLoanRequests() {
             try {
-                // const fundId = this.$route.params.fundId;
                 const response = await axios.get('/get-non-assigned-loan-request/');
                 console.log(response.data);
                 this.loanRequests = response.data;

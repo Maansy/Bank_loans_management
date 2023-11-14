@@ -8,6 +8,8 @@ from rest_framework.authentication import TokenAuthentication
 from funds.models import Fund
 from .services import LoanCalculator
 import stripe
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
@@ -22,7 +24,7 @@ def create_loan(request):
         if serializer.is_valid():
             serializer.save(created_by=bank_personnal)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)  # Add this line to see the validation errors
+        print(serializer.errors) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
@@ -80,14 +82,13 @@ def request_loan(request,pk):
         if serializer.is_valid():
             serializer.save(user=loan_customer, loan=loan)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)  # Add this line to see the validation errors
+        print(serializer.errors) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_rejected_loans(request):
-    #get rejected fund request that is not payed for each loan provider invividualy
     if request.method == 'GET':
         user = request.user
         try:
@@ -102,7 +103,6 @@ def get_rejected_loans(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_waiting_approve_loans(request):
-    #get waiting fund request
     if request.method == 'GET':
         user = request.user
         try:
@@ -120,7 +120,6 @@ def get_waiting_approve_loans(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_inprogress_loan(request):
-    #get approved fund request that is not payed for each loan provider invividualy
     if request.method == 'GET':
         user = request.user
         try:
@@ -142,7 +141,6 @@ def get_inprogress_loan(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_subsribed_loans(request):
-    #get approved fund request that is not payed for each loan provider invividualy
     if request.method == 'GET':
         user = request.user
         try:
@@ -180,7 +178,6 @@ def create_stripe_checkout_session_loan(request):
                 },
             ],
             mode='payment',
-            #if success change the is_payed to true
             success_url=request.build_absolute_uri('http://localhost:8080/customer-dashboard'),  # Redirect URLs after successful payment            
             cancel_url=request.build_absolute_uri('/cancel/'),
         )

@@ -150,14 +150,12 @@ export default {
         async stripeCheckout(amount, id) {
             const stripe = Stripe('pk_test_51O6FfiCPlb6OgBYTTtNVQhyhaNBiwTNrT2KfyuXOi8zjopPigOBqqHCx0KTWxO93ks5iuuStW3PAJy2ZYnmn6vS300jEVHSn0K'); // Replace with your Stripe public key
             try {
-                // console.log(id);
                 const response = await axios.post('/create-stripe-checkout-session/', { amount:amount , id:id });
                 const sessionId = response.data.sessionId;
                 await stripe.redirectToCheckout({ sessionId });
                 console.log(response.data);
             } catch (error) {
                 console.error('Error with Stripe checkout:', error);
-                // Handle errors
             }
         },
 

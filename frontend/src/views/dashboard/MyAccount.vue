@@ -129,7 +129,6 @@ export default {
         this.role = this.$store.state.role;
     },
     methods: {
-        // Map the Vuex 'logout' mutation to a different local method name
         ...mapMutations({
             vuexLogout: 'logout'
         }),
@@ -138,7 +137,6 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
-            // Call the Vuex 'logout' mutation
             this.vuexLogout();
 
             axios.defaults.headers.common['Authorization'] = '';

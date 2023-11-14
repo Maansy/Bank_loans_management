@@ -12,15 +12,15 @@
 
 
             <v-col cols="12">
-                <v-row> <!-- Centering the column -->
-                    <v-col cols="12" sm="4"> <!-- Adjust the size of the column -->
+                <v-row> 
+                    <v-col cols="12" sm="4"> 
                         <v-text-field label="Enter Your amount $" v-model="this.amount" required></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="4"> <!-- Adjust the size of the column -->
+                    <v-col cols="12" sm="4"> 
                         <v-text-field label="Monthly amount $" v-model="this.monthly_amount" required
                             disabled></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="4"> <!-- Adjust the size of the column -->
+                    <v-col cols="12" sm="4"> 
                         <v-text-field label="Interest $" v-model="this.interest" required disabled></v-text-field>
                     </v-col>
                 </v-row>
@@ -153,8 +153,6 @@ export default {
             const response = await axios.get(`/calc-interest/${loanId}/${amount}/`);
             this.interest = response.data.interest;
             this.monthly_amount = response.data.monthly_payment;
-            // this.interest = (parseFloat(amount) * this.interest_rate / 100) * this.duration;
-            // this.monthly_amount = (parseFloat(amount) + parseFloat(this.interest)) / (this.duration * 12);
         }
     },
 };

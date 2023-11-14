@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Fund, FundRequest , GeneralInfo, FundPayment
-# Register your models here.
 
 class FundAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'interest_rate', 'min_fund_amount', 'max_fund_amount', 'duration', 'created_at', 'updated_at', 'created_by')

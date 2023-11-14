@@ -24,11 +24,9 @@ class BankPersonnelViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == 'post' or self.action == 'create':
             permission_classes = [AllowAny]
-            # authentication_classes = []
 
         else:
             permission_classes = [IsAuthenticated]
-            # authentication_classes = [TokenAuthentication]
         return [permission() for permission in permission_classes] 
 
     def create(self, request, *args, **kwargs):
@@ -52,11 +50,9 @@ class LoanProviderViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == 'post' or self.action == 'create':
             permission_classes = [AllowAny]
-            # authentication_classes = []
 
         else:
             permission_classes = [IsAuthenticated]
-            # authentication_classes = [TokenAuthentication]
         return [permission() for permission in permission_classes] 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -78,11 +74,9 @@ class LoanCustomerViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == 'post' or self.action == 'create':
             permission_classes = [AllowAny]
-            # authentication_classes = []
 
         else:
             permission_classes = [IsAuthenticated]
-            # authentication_classes = [TokenAuthentication]
         return [permission() for permission in permission_classes] 
 
     def post(self, request, *args, **kwargs):
@@ -96,40 +90,6 @@ class LoanCustomerViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-# class CustomLoginView(APIView):
-#     permission_classes = (AllowAny,)
-
-#     def post(self, request, *args, **kwargs):
-#         username = request.data.get('username')
-#         password = request.data.get('password')
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             token, creates = Token.objects.get_or_create(user=user)
-#             # Check the type of user and return the appropriate message
-#             if hasattr(user, 'bank_personnel'):
-#                 return Response({'message': 'You are logged in as Bank Personnel.',
-#                                  'token':token.key,
-#                                  'role':'bank'}, status=status.HTTP_200_OK)
-#             elif hasattr(user, 'loan_provider'):
-#                 return Response({'message': 'You are logged in as Loan Provider.',
-#                                  'token':token.key,
-#                                  'role':'provider'}, status=status.HTTP_200_OK)
-#             elif hasattr(user, 'loan_customer'):
-#                 return Response({'message': 'You are logged in as Loan Customer.',
-#                                  'token':token.key,
-#                                  'role':'bank'}, status=status.HTTP_200_OK)
-#             else:
-#                 # User exists but is not any of the specified types
-#                 return Response({'message': 'You are logged in.',
-#                                  'token':token.key }, status=status.HTTP_200_OK)
-#         else:
-#             # Authentication failed
-#             return Response({'error': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
-
-
 class CustomLoginView(APIView):
     permission_classes = (AllowAny,)
 
@@ -141,12 +101,10 @@ class CustomLoginView(APIView):
         if user is not None:
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
-            # Set up the response
             data = {
                 'user': UserSerializer(user).data,
                 'message': 'You are logged in.',
                 'token': token.key,
-                # Include other data if necessary
             }
             if hasattr(user, 'bank_personnel'):
                 data['role'] = 'bank'
@@ -158,16 +116,13 @@ class CustomLoginView(APIView):
                 data['role'] = 'customer'
                 data['is_verified'] = user.loan_customer.is_verified
 
-            # Prepare the response object with the data
             response = Response(data, status=status.HTTP_200_OK)
 
-            # Set the cookie with the token, you can set the max_age as per your requirement for expiry
-            # Default to 1 hour if not set in settings
+   
             expiry = getattr(settings, 'TOKEN_EXPIRY', 3600)
             max_age = expiry if expiry is not None else 365 * \
                 24 * 60 * 60  # One year if expiry is None
 
-            # Set the secure flag to True if using HTTPS
             secure = getattr(settings, 'SESSION_COOKIE_SECURE', False)
             httponly = getattr(settings, 'SESSION_COOKIE_HTTPONLY', True)
             samesite = getattr(settings, 'SESSION_COOKIE_SAMESITE', 'Lax')
@@ -196,35 +151,16 @@ class CustomLoginView(APIView):
             # Authentication failed
             return Response({'error': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-
-# class LogoutView(APIView):
-#     permission_classes = [IsAuthenticated]  # Ensure that only authenticated users can access this view
-#     authentication_classes = [TokenAuthentication]  # Specify the authentication class to use
-
-#     def post(self, request, *args, **kwargs):
-#         # This view expects a POST request, indicating the user's intent to log out.
-
-#         # simply delete the token to force a log out
-#         request.user.auth_token.delete()
-#         return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
-
-
 class LogoutView(APIView):
-    # Ensure that only authenticated users can access this view
     permission_classes = [IsAuthenticated]
-    # Specify the authentication class to use
     authentication_classes = [TokenAuthentication]
 
     def post(self, request, *args, **kwargs):
-        # Delete the token to log out
         request.user.auth_token.delete()
 
-        # Prepare the response object with the success message
         response = Response(
             {"message": "Logged out successfully"}, status=status.HTTP_200_OK)
 
-        # Delete the cookie containing the token
-        # The name 'auth_token' should match what you set in the login view
         response.delete_cookie('auth_token')
 
         return response
@@ -235,9 +171,7 @@ class GetMeView(APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        # Assuming you have a serializer to serialize user data
         user_data = UserSerializer(request.user).data
-        # print(hasattr(request.user, 'loan_provider'))
         if hasattr(request.user, 'bank_personnel'):
             user_data['role'] = 'bank'
             bank_personnel_data = BankPersonnelSerializer(

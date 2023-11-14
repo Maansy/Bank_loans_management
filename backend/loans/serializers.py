@@ -39,26 +39,3 @@ class LoanRequestSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         loan_request = LoanRequest.objects.create(**validated_data)
         return loan_request
-
-# class GeneralInfoSerializer(serializers.ModelSerializer):
-#     loan = LoanSerializer(read_only=True)
-#     class Meta:
-#         model = GeneralInfo
-#         fields = '__all__'
-#         read_only_fields = ('created_at',)
-
-#     def create(self, validated_data):
-#         general_info = GeneralInfo.objects.create(**validated_data)
-#         return general_info
-
-# class LoanPaymentSerializer(serializers.ModelSerializer):
-#     loan = LoanSerializer(read_only=True)
-#     user = serializers.PrimaryKeyRelatedField(queryset=Loan.objects.all())
-#     class Meta:
-#         model = LoanPayment
-#         fields = '__all__'
-#         read_only_fields = ('created_at',)
-
-#     def create(self, validated_data):
-#         loan_payment = LoanPayment.objects.create(**validated_data)
-#         return loan_payment

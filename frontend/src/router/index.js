@@ -156,12 +156,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requireLogin)) {
     if (!store.state.isAuthenticated) {
-      next('/login'); // Redirect to login if not authenticated
+      next('/login'); 
     } else {
-      next(); // Proceed to the route
+      next(); 
     }
   } else {
-    next(); // No authentication required
+    next(); 
   }
 });
 
@@ -169,12 +169,12 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.youAreLogin)) {
     if (store.state.isAuthenticated) {
-      next('/my-account'); // Redirect to login if not authenticated
+      next('/my-account'); 
     } else {
-      next(); // Proceed to the route
+      next(); 
     }
   } else {
-    next(); // No authentication required
+    next(); 
   }
 });
 
@@ -184,10 +184,10 @@ router.beforeEach((to, from, next) => {
     if (store.state.role != 'bank') {
       next('/my-account'); 
     } else {
-      next(); // Proceed to the route
+      next(); 
     }
   } else {
-    next(); // No authentication required
+    next(); 
   }
 });
 
@@ -195,12 +195,12 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.youAreProvider)) {
     if (store.state.role === 'customer') {
-      next('/my-account'); // Redirect to login if not authenticated
+      next('/my-account'); 
     } else {
-      next(); // Proceed to the route
+      next(); 
     }
   } else {
-    next(); // No authentication required
+    next(); 
   }
 });
 
@@ -209,12 +209,12 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.youAreCustomer)) {
     if (store.state.role === 'provider') {
-      next('/my-account'); // Redirect to login if not authenticated
+      next('/my-account'); 
     } else {
-      next(); // Proceed to the route
+      next(); 
     }
   } else {
-    next(); // No authentication required
+    next(); 
   }
 });
 
