@@ -137,7 +137,7 @@ export default {
             const loanId = this.$route.params.loanId;
             axios.post(`/request-loan/${loanId}/`, { payed_amount: amount })
                 .then((response) => {
-                    this.$router.push('customer-dashboard/');
+                    this.$router.push({name : 'DashboardCustomer'});
                 })
                 .catch((error) => {
                     console.log(error);

@@ -125,7 +125,7 @@ export default {
             try {
                 const response = await axios.get('/get-inprogress-loan/');
                 this.approved_loans = response.data;
-                console.log(this.approved_loans);
+                // console.log(this.approved_loans);
             } catch (error) {
                 console.log(error);
             }
