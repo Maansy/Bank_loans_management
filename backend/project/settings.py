@@ -63,6 +63,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://192.168.8.142:8080"
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # ... other authentication classes
+    ],
+    # ... other DRF settings
+}
+
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [

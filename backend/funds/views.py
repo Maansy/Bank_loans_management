@@ -8,11 +8,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .services import CalculateFundService
 import stripe
-
+from users.permissions import IsBankPersonnel, IsLoanProvider, IsLoanCustomer, IsBankPersonnelOrLoanProvider, IsBankPersonnelOrLoanCustomer
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnel])
 def create_fund(request):
     if request.method == 'POST':
         user = request.user
@@ -27,8 +28,9 @@ def create_fund(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnelOrLoanProvider])
 def get_funds(request):
     if request.method == 'GET':
         funds = Fund.objects.all()
@@ -37,8 +39,9 @@ def get_funds(request):
     
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnelOrLoanProvider])
 def get_fund(request,pk):
     if request.method == 'GET':
         try:
@@ -49,8 +52,9 @@ def get_fund(request,pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsLoanProvider])
 def request_fund(request,pk):
     if request.method == 'POST':
         user = request.user
@@ -69,8 +73,9 @@ def request_fund(request,pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnel])
 def approve_fund_request(request,pk):
     if request.method == 'PUT':
         user = request.user
@@ -89,8 +94,9 @@ def approve_fund_request(request,pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnel])
 def reject_fund_request(request,pk):
     if request.method == 'PUT':
         user = request.user
@@ -109,8 +115,9 @@ def reject_fund_request(request,pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnel])
 def get_non_assigned_fund_request(request):
     if request.method == 'GET':
         user = request.user
@@ -124,8 +131,9 @@ def get_non_assigned_fund_request(request):
     
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnel])
 def get_approved_fund_request(request):
     if request.method == 'GET':
         user = request.user
@@ -138,8 +146,9 @@ def get_approved_fund_request(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnel])
 def get_rejected_fund_request(request):
     if request.method == 'GET':
         user = request.user
