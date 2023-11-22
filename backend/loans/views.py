@@ -8,6 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from funds.models import Fund
 from .services import LoanCalculator
 import stripe
+from django.conf import settings
 
 
 @api_view(['POST'])
@@ -157,7 +158,7 @@ def get_subsribed_loans(request):
             data.append({'id':loan_request.id,'duration': loan.duration * 12, 'payed_amount': loan_request.payed_amount,'loan': loan.name, 'monthly_payment': round(monthly_payment,2)})
         return Response(data, status=status.HTTP_200_OK)
 
-stripe.api_key = 'sk_test_51O6FfiCPlb6OgBYTGZfUHyHesnm1Y1TFAF3vbPyLw8zotPtAoZATwmuG4iSsuAp7NHZJWBlFkTSwjzcXkMptPqof00hXweSPZn'
+stripe.api_key = settings.STRIPE_SECRET_KEY
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])

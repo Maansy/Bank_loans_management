@@ -9,6 +9,7 @@ from rest_framework.authentication import TokenAuthentication
 from .services import CalculateFundService
 import stripe
 from users.permissions import IsBankPersonnel, IsLoanProvider, IsLoanCustomer, IsBankPersonnelOrLoanProvider, IsBankPersonnelOrLoanCustomer
+from django.conf import settings
 
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
@@ -240,8 +241,9 @@ def get_payed_funds_with_interests(request):
             data.append({'fund_name': fund_request.fund.name, 'total_amount': total_amount, 'payed_amount': fund_request.payed_amount})
         return Response(data, status=status.HTTP_200_OK)
     
+# import settings
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
-stripe.api_key = 'sk_test_51O6FfiCPlb6OgBYTGZfUHyHesnm1Y1TFAF3vbPyLw8zotPtAoZATwmuG4iSsuAp7NHZJWBlFkTSwjzcXkMptPqof00hXweSPZn'
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
