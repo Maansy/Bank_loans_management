@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'users', 
     'loans',
     'funds',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
+    'funds.middleware.SimpleMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -66,10 +68,17 @@ CORS_ALLOWED_ORIGINS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        # ... other authentication classes
     ],
-    # ... other DRF settings
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'abdomansy19@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'lpwm rrgy tjvv wrye'  # Your Gmail password or App password
+
+
 
 ROOT_URLCONF = 'project.urls'
 

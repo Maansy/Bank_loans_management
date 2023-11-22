@@ -18,6 +18,18 @@ class Fund(models.Model):
     def __str__(self):
         return self.name
     
+    @classmethod
+    def create_deafults_fund(cls, name, created_by, **kwargs):
+        defaults = {
+            'description': 'Fund description',
+            'interest_rate': 0.0,
+            'max_fund_amount': 1000.0,
+            'min_fund_amount': 100.0,
+            'duration': 4
+        }
+        defaults.update(kwargs)
+        return cls.objects.create(name=name, created_by=created_by, **defaults)
+    
 
 class FundRequest(models.Model):
     fund = models.ForeignKey(Fund, on_delete=models.CASCADE)

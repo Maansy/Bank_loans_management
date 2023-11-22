@@ -161,8 +161,9 @@ def get_rejected_fund_request(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsBankPersonnelOrLoanProvider])
 def calc_fund_interest(request,pk,amount):
     if request.method == 'GET':
         try:
@@ -174,8 +175,9 @@ def calc_fund_interest(request,pk,amount):
         return Response(total_amount, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsLoanProvider])
 def get_approved_fund_waiting_payment(request):
     if request.method == 'GET':
         user = request.user
@@ -189,8 +191,9 @@ def get_approved_fund_waiting_payment(request):
     
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsLoanProvider])
 def get_rejected_funds(request):
     if request.method == 'GET':
         user = request.user
@@ -203,8 +206,9 @@ def get_rejected_funds(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsLoanProvider])
 def get_waiting_approve_funds(request):
     if request.method == 'GET':
         user = request.user
@@ -218,8 +222,9 @@ def get_waiting_approve_funds(request):
     
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+@permission_classes([IsLoanProvider])
 def get_payed_funds_with_interests(request):
     if request.method == 'GET':
         user = request.user
